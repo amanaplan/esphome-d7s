@@ -1,12 +1,6 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import sensor
-from esphome.const import (
-    DEVICE_CLASS_ACCELERATION,
-    ENTITY_CATEGORY_DIAGNOSTIC,
-    STATE_CLASS_MEASUREMENT,
-    UNIT_METER_PER_SECOND_SQUARED,
-)
 
 from . import D7SComponent
 
@@ -20,19 +14,19 @@ CONFIG_SCHEMA = cv.Schema(
         cv.Optional(CONF_INSTANTANEOUS_SI): sensor.sensor_schema(
             unit_of_measurement="m/s",
             accuracy_decimals=3,
-            state_class=STATE_CLASS_MEASUREMENT,
-            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+            state_class="measurement",
+            entity_category="diagnostic",
+            icon="mdi:chart-line",
         ),
         cv.Optional(CONF_INSTANTANEOUS_PGA): sensor.sensor_schema(
-            unit_of_measurement=UNIT_METER_PER_SECOND_SQUARED,
+            unit_of_measurement="m/s²",
             accuracy_decimals=3,
-            device_class=DEVICE_CLASS_ACCELERATION,
-            state_class=STATE_CLASS_MEASUREMENT,
-            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+            state_class="measurement",
+            entity_category="diagnostic",
+            icon="mdi:axis-arrow",
         ),
     }
 )
-
 
 async def to_code(config):
     hub = await cg.get_variable(config[CONF_D7S_ID])
