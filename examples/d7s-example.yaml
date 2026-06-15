@@ -1,0 +1,91 @@
+substitutions:
+  name: d7s-seismic-sensor
+  friendly_name: D7S Seismic Sensor
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+  level: INFO
+
+api:
+
+ota:
+  - platform: esphome
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  ap:
+    ssid: "${friendly_name} Fallback"
+    password: !secret fallback_ap_password
+
+captive_portal:
+
+# Grove D7S default I2C address is 0x55.
+# For most ESP32 dev boards: SDA=GPIO21, SCL=GPIO22.
+i2c:
+  sda: GPIO21
+  scl: GPIO22
+  scan: true
+  frequency: 100kHz
+
+external_components:
+  # For a local checkout, keep this form:
+  - source:
+      type: local
+      path: ../components
+    components: [d7s]
+
+  # After publishing to GitHub, replace the block above with something like:
+  # - source:
+  #     type: git
+  #     url: https://github.com/YOUR_USERNAME/esphome-d7s
+  #     ref: main
+  #   components: [d7s]
+  #   refresh: 1d
+
+d7s:
+  id: d7s_sensor
+  address: 0x55
+  update_interval: 1s
+
+  # Only enable this for first-time physical installation/calibration.
+  # Keep the sensor mounted and motionless while it runs, then turn it off and reflash.
+  initialize_on_boot: false
+
+  # Clears latched D7S event flags after the current earthquake event ends.
+  reset_events_each_cycle: true
+
+  # Options: force_yz, force_xz, force_xy, auto_switch, switch_at_installation
+  axis_mode: switch_at_installation
+
+binary_sensor:
+  - platform: d7s
+    d7s_id: d7s_sensor
+
+    earthquake_occurring:
+      name: "Earthquake Occurring"
+
+    collapse_occurring:
+      name: "Collapse Occurring"
+
+    shutoff_occurring:
+      name: "D7S Shutoff Event"
+
+sensor:
+  - platform: d7s
+    d7s_id: d7s_sensor
+
+    instantaneous_si:
+      name: "Instantaneous SI"
+
+    instantaneous_pga:
+      name: "Instantaneous PGA"
