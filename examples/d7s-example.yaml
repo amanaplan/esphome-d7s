@@ -38,19 +38,12 @@ i2c:
   frequency: 100kHz
 
 external_components:
-  # For a local checkout, keep this form:
   - source:
-      type: local
-      path: ../components
+      type: git
+      url: https://github.com/amanaplan/esphome-d7s
+      ref: main
     components: [d7s]
-
-  # After publishing to GitHub, replace the block above with something like:
-  # - source:
-  #     type: git
-  #     url: https://github.com/YOUR_USERNAME/esphome-d7s
-  #     ref: main
-  #   components: [d7s]
-  #   refresh: 1d
+    refresh: 1d
 
 d7s:
   id: d7s_sensor
