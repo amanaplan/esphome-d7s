@@ -1,7 +1,6 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import binary_sensor
-from esphome.const import DEVICE_CLASS_PROBLEM, ENTITY_CATEGORY_DIAGNOSTIC
 
 from . import D7SComponent
 
@@ -14,20 +13,19 @@ CONFIG_SCHEMA = cv.Schema(
     {
         cv.GenerateID(CONF_D7S_ID): cv.use_id(D7SComponent),
         cv.Optional(CONF_EARTHQUAKE_OCCURRING): binary_sensor.binary_sensor_schema(
-            device_class=DEVICE_CLASS_PROBLEM,
-            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+            device_class="problem",
+            entity_category="diagnostic",
         ),
         cv.Optional(CONF_COLLAPSE_OCCURRING): binary_sensor.binary_sensor_schema(
-            device_class=DEVICE_CLASS_PROBLEM,
-            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+            device_class="problem",
+            entity_category="diagnostic",
         ),
         cv.Optional(CONF_SHUTOFF_OCCURRING): binary_sensor.binary_sensor_schema(
-            device_class=DEVICE_CLASS_PROBLEM,
-            entity_category=ENTITY_CATEGORY_DIAGNOSTIC,
+            device_class="problem",
+            entity_category="diagnostic",
         ),
     }
 )
-
 
 async def to_code(config):
     hub = await cg.get_variable(config[CONF_D7S_ID])
