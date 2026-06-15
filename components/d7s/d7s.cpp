@@ -52,8 +52,8 @@ void D7SComponent::setup() {
         this->mark_failed();
         return;
       }
-      delay(250);
-      App.feed_wdt();
+     delay(250);
+     yield();
     }
 
     ESP_LOGI(TAG, "D7S initial installation complete");
