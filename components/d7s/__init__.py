@@ -21,7 +21,7 @@ AXIS_MODES = {
 d7s_ns = cg.esphome_ns.namespace("d7s")
 D7SComponent = d7s_ns.class_("D7SComponent", cg.PollingComponent, i2c.I2CDevice)
 
-CONFIG_SCHEMA = (
+CONFIG_SCHEMA = cv.All(
     cv.Schema(
         {
             cv.GenerateID(): cv.declare_id(D7SComponent),
@@ -35,7 +35,6 @@ CONFIG_SCHEMA = (
     .extend(cv.polling_component_schema("1s"))
     .extend(i2c.i2c_device_schema(0x55))
 )
-
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
